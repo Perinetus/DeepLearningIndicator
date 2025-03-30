@@ -1,0 +1,88 @@
+// MIT License
+
+// Copyright (c) 2025 Natchaphol Chumpanin
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+//@version=5
+indicator("2xHLV In 1xHL Out V2", overlay=true)
+
+// IND-1hT50-ser_I2_H_L_chmV_ratioV-Conv4_1-ReLU-Flat-Dense2-ReLU-O1F0H_L-b64e10-R8829
+
+// === Input: 2 time steps × 3 features ===
+h1 = high[1], l1 = low[1], v1 = volume[1]
+h0 = high,   l0 = low, v0 = volume
+
+// === Normalize (MinMaxScaler logic) ===
+min_val = math.min(math.min(h0, l0), math.min(h1, l1))
+max_val = math.max(math.max(h0, l0), math.max(h1, l1))
+range_val = math.max(max_val - min_val, 1e-9)
+
+nh1 = (h1 - min_val) / range_val
+nl1 = (l1 - min_val) / range_val
+nh0 = (h0 - min_val) / range_val
+nl0 = (l0 - min_val) / range_val
+ivi = 0.5
+nvc = 1.0
+
+if (v1 < v0)
+    ivi := 0
+    nvc := v0 / math.max(1, v1)
+else if (v1 > v0)
+    ivi := 1
+    nvc := v1 / math.max(1, v0)
+
+// === Model Offset as 0 ===
+
+// === Conv1D Output with ReLU ===
+HLchmV0F_f0 = math.max((0.02315884 * nh1) + (1.21099663 * nl1) + (0.03680526 * nh0) + (1.18261111 * nl0) + (0.01715475 * ivi) + (-0.05152069 * nvc) + -0.92200792, 0)
+HLchmV0F_f1 = math.max((0.07827779 * nh1) + (-3.62524462 * nl1) + (0.01259548 * nh0) + (0.53791136 * nl0) + (0.00932375 * ivi) + (-0.13284379 * nvc) + 0.00381070, 0)
+HLchmV0F_f2 = math.max((0.05023641 * nh1) + (-0.00525779 * nl1) + (0.07018227 * nh0) + (-0.21381460 * nl0) + (-0.00287452 * ivi) + (0.05119558 * nvc) + 0.62305772, 0)
+HLchmV0F_f3 = math.max((1.09193540 * nh1) + (0.05131565 * nl1) + (1.00353360 * nh0) + (0.02210612 * nl0) + (-0.01281482 * ivi) + (0.00378452 * nvc) + -0.90214491, 0)
+
+// === Dense Output with ReLU ===
+HLchmV0F_out0 = math.max((0.00861425 * HLchmV0F_f0) + (0.12518840 * HLchmV0F_f1) + (0.58826423 * HLchmV0F_f2) + (-2.69695139 * HLchmV0F_f3) + 0.60515684, 0)
+HLchmV0F_out1 = math.max((-1.62465441 * HLchmV0F_f0) + (0.70778650 * HLchmV0F_f1) + (0.85296720 * HLchmV0F_f2) + (-0.23349178 * HLchmV0F_f3) + 0.37423030, 0)
+
+upper_threshold = 2
+lower_threshold = 1
+threshold_exceeding = false
+
+if (HLchmV0F_out0 > 1 + lower_threshold)
+    HLchmV0F_out0 := 1 + lower_threshold
+    threshold_exceeding := true
+else if (HLchmV0F_out0 < -upper_threshold)
+    HLchmV0F_out0 := -upper_threshold
+    threshold_exceeding := true
+if (HLchmV0F_out1 > 1 + upper_threshold)
+    HLchmV0F_out1 := 1 + upper_threshold
+    threshold_exceeding := true
+else if (HLchmV0F_out1 < -lower_threshold)
+    HLchmV0F_out1 := -lower_threshold
+    threshold_exceeding := true
+
+next_high0 = HLchmV0F_out0 * range_val + min_val
+next_low0 = HLchmV0F_out1 * range_val + min_val
+
+// === Plot the Differences ===
+plot(next_high0, title="Predicted High 0", color=color.new(color.blue, 0), linewidth=2, offset=1)
+plot(next_low0, title="Predicted Low 0", color=color.new(color.purple, 0), linewidth=2, offset=1)
+
+// === Highlight condition for exceeding thresholds ===
+bgcolor(threshold_exceeding[1] ? color.new(color.red, 80) : na)
