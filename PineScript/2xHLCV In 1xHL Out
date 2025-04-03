@@ -1,0 +1,70 @@
+// MIT License
+
+// Copyright (c) 2025 Natchaphol Chumpanin
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+//@version=5
+indicator("2xHLV In 1xHL Out V4", overlay=true)
+
+// IND-1hT50-ser_I2_H_L_I1_C_chmV_ratioV_actNorm-Conv4_1-ReLU-Flat-Dense2-ReLU-O1F0H_L-b4e3-R3986
+
+// === Input: 2 time steps × 3 features ===
+h1 = high[1], l1 = low[1], v1 = volume[1]
+h0 = high,   l0 = low, v0 = volume
+c0 = close
+
+// === Normalize (MinMaxScaler logic) ===
+min_val = math.min(math.min(math.min(h0, l0), math.min(h1, l1)), c0)
+max_val = math.max(math.max(math.max(h0, l0), math.max(h1, l1)), c0)
+range_val = math.max(max_val - min_val, 1e-3)
+
+nh1 = (h1 - min_val) / range_val
+nl1 = (l1 - min_val) / range_val
+nh0 = (h0 - min_val) / range_val
+nl0 = (l0 - min_val) / range_val
+nc = (c0 - min_val) / range_val
+ivi = 0.5
+nvc = 1.0
+
+if (v1 < v0)
+    ivi := 0
+    nvc := v0 / math.max(1, v1)
+else if (v1 > v0)
+    ivi := 1
+    nvc := v1 / math.max(1, v0)
+
+// === Model Offset as 0 ===
+
+// === Conv1D Output with ReLU ===
+HLCchmV0FactNorm_f0 = math.max((0.83043641 * nh1) + (0.73720199 * nl1) + (-0.08394118 * nh0) + (-0.16983223 * nl0) + (0.13520710 * nc) + (0.62526578 * ivi) + (0.02559928 * nvc) + 0.20916559, 0)
+HLCchmV0FactNorm_f1 = math.max((0.42775014 * nh1) + (0.40526780 * nl1) + (0.42752984 * nh0) + (0.48892888 * nl0) + (0.79011089 * nc) + (0.39507908 * ivi) + (-0.00401115 * nvc) + 0.18694423, 0)
+HLCchmV0FactNorm_f2 = math.max((-0.42783660 * nh1) + (0.22455734 * nl1) + (-0.14393133 * nh0) + (0.37576276 * nl0) + (-0.03664410 * nc) + (0.25780410 * ivi) + (-0.40181851 * nvc) + -0.02888659, 0)
+HLCchmV0FactNorm_f3 = math.max((-1.19516659 * nh1) + (-0.08127433 * nl1) + (-0.81163251 * nh0) + (-0.62917221 * nl0) + (-0.16620347 * nc) + (-0.42185980 * ivi) + (-0.01277003 * nvc) + -0.57597256, 0)
+
+// === Dense Output with ReLU ===
+HLCchmV0FactNorm_out0 = math.max((-0.24099572 * HLCchmV0FactNorm_f0) + (0.35546362 * HLCchmV0FactNorm_f1) + (0.58506447 * HLCchmV0FactNorm_f2) + (0.00772209 * HLCchmV0FactNorm_f3) + 0.41172886, 0)
+HLCchmV0FactNorm_out1 = math.max((-0.24713878 * HLCchmV0FactNorm_f0) + (0.40425223 * HLCchmV0FactNorm_f1) + (-0.91367620 * HLCchmV0FactNorm_f2) + (-0.02339359 * HLCchmV0FactNorm_f3) + -0.01212409, 0)
+
+next_high0 = ((HLCchmV0FactNorm_out0 * 2) - 0.5) * range_val + min_val
+next_low0 = ((HLCchmV0FactNorm_out1 * 2) - 0.5) * range_val + min_val
+
+// === Plot the Differences ===
+plot(next_high0, title="Predicted High 0", color=color.new(color.blue, 0), linewidth=2, offset=1)
+plot(next_low0, title="Predicted Low 0", color=color.new(color.purple, 0), linewidth=2, offset=1)
