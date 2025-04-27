@@ -1,0 +1,303 @@
+// MIT License
+
+// Copyright (c) 2025 Natchaphol Chumpanin
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+//@version=5
+indicator("IND 51xHLC In 1xHL Out R8992", overlay=true)
+// IND-5mT10-ser_I50_H_L_I1_C-Flat-Dense2-O1F0H_L-b4e1-R8992.weights
+
+// === Input: 51 time steps × 2 features ===
+h50 = high[50], l50 = low[50]
+h49 = high[49], l49 = low[49]
+h48 = high[48], l48 = low[48]
+h47 = high[47], l47 = low[47]
+h46 = high[46], l46 = low[46]
+h45 = high[45], l45 = low[45]
+h44 = high[44], l44 = low[44]
+h43 = high[43], l43 = low[43]
+h42 = high[42], l42 = low[42]
+h41 = high[41], l41 = low[41]
+h40 = high[40], l40 = low[40]
+h39 = high[39], l39 = low[39]
+h38 = high[38], l38 = low[38]
+h37 = high[37], l37 = low[37]
+h36 = high[36], l36 = low[36]
+h35 = high[35], l35 = low[35]
+h34 = high[34], l34 = low[34]
+h33 = high[33], l33 = low[33]
+h32 = high[32], l32 = low[32]
+h31 = high[31], l31 = low[31]
+h30 = high[30], l30 = low[30]
+h29 = high[29], l29 = low[29]
+h28 = high[28], l28 = low[28]
+h27 = high[27], l27 = low[27]
+h26 = high[26], l26 = low[26]
+h25 = high[25], l25 = low[25]
+h24 = high[24], l24 = low[24]
+h23 = high[23], l23 = low[23]
+h22 = high[22], l22 = low[22]
+h21 = high[21], l21 = low[21]
+h20 = high[20], l20 = low[20]
+h19 = high[19], l19 = low[19]
+h18 = high[18], l18 = low[18]
+h17 = high[17], l17 = low[17]
+h16 = high[16], l16 = low[16]
+h15 = high[15], l15 = low[15]
+h14 = high[14], l14 = low[14]
+h13 = high[13], l13 = low[13]
+h12 = high[12], l12 = low[12]
+h11 = high[11], l11 = low[11]
+h10 = high[10], l10 = low[10]
+h9 = high[9], l9 = low[9]
+h8 = high[8], l8 = low[8]
+h7 = high[7], l7 = low[7]
+h6 = high[6], l6 = low[6]
+h5 = high[5], l5 = low[5]
+h4 = high[4], l4 = low[4]
+h3 = high[3], l3 = low[3]
+h2 = high[2], l2 = low[2]
+h1 = high[1], l1 = low[1]
+h0 = high,   l0 = low
+c0 = close
+
+// === Normalize (MinMaxScaler logic) ===
+max_val = math.max(math.max(h1, l1), c0)
+max_val := math.max(math.max(h2, l2), max_val)
+max_val := math.max(math.max(h3, l3), max_val)
+max_val := math.max(math.max(h4, l4), max_val)
+max_val := math.max(math.max(h5, l5), max_val)
+max_val := math.max(math.max(h6, l6), max_val)
+max_val := math.max(math.max(h7, l7), max_val)
+max_val := math.max(math.max(h8, l8), max_val)
+max_val := math.max(math.max(h9, l9), max_val)
+max_val := math.max(math.max(h10, l10), max_val)
+max_val := math.max(math.max(h11, l11), max_val)
+max_val := math.max(math.max(h12, l12), max_val)
+max_val := math.max(math.max(h13, l13), max_val)
+max_val := math.max(math.max(h14, l14), max_val)
+max_val := math.max(math.max(h15, l15), max_val)
+max_val := math.max(math.max(h16, l16), max_val)
+max_val := math.max(math.max(h17, l17), max_val)
+max_val := math.max(math.max(h18, l18), max_val)
+max_val := math.max(math.max(h19, l19), max_val)
+max_val := math.max(math.max(h20, l20), max_val)
+max_val := math.max(math.max(h21, l21), max_val)
+max_val := math.max(math.max(h22, l22), max_val)
+max_val := math.max(math.max(h23, l23), max_val)
+max_val := math.max(math.max(h24, l24), max_val)
+max_val := math.max(math.max(h25, l25), max_val)
+max_val := math.max(math.max(h26, l26), max_val)
+max_val := math.max(math.max(h27, l27), max_val)
+max_val := math.max(math.max(h28, l28), max_val)
+max_val := math.max(math.max(h29, l29), max_val)
+max_val := math.max(math.max(h30, l30), max_val)
+max_val := math.max(math.max(h31, l31), max_val)
+max_val := math.max(math.max(h32, l32), max_val)
+max_val := math.max(math.max(h33, l33), max_val)
+max_val := math.max(math.max(h34, l34), max_val)
+max_val := math.max(math.max(h35, l35), max_val)
+max_val := math.max(math.max(h36, l36), max_val)
+max_val := math.max(math.max(h37, l37), max_val)
+max_val := math.max(math.max(h38, l38), max_val)
+max_val := math.max(math.max(h39, l39), max_val)
+max_val := math.max(math.max(h40, l40), max_val)
+max_val := math.max(math.max(h41, l41), max_val)
+max_val := math.max(math.max(h42, l42), max_val)
+max_val := math.max(math.max(h43, l43), max_val)
+max_val := math.max(math.max(h44, l44), max_val)
+max_val := math.max(math.max(h45, l45), max_val)
+max_val := math.max(math.max(h46, l46), max_val)
+max_val := math.max(math.max(h47, l47), max_val)
+max_val := math.max(math.max(h48, l48), max_val)
+max_val := math.max(math.max(h49, l49), max_val)
+max_val := math.max(math.max(h50, l50), max_val)
+
+min_val = math.min(math.min(h1, l1), c0)
+min_val := math.min(math.min(h2, l2), max_val)
+min_val := math.min(math.min(h3, l3), max_val)
+min_val := math.min(math.min(h4, l4), max_val)
+min_val := math.min(math.min(h5, l5), max_val)
+min_val := math.min(math.min(h6, l6), max_val)
+min_val := math.min(math.min(h7, l7), max_val)
+min_val := math.min(math.min(h8, l8), max_val)
+min_val := math.min(math.min(h9, l9), max_val)
+min_val := math.min(math.min(h10, l10), max_val)
+min_val := math.min(math.min(h11, l11), max_val)
+min_val := math.min(math.min(h12, l12), max_val)
+min_val := math.min(math.min(h13, l13), max_val)
+min_val := math.min(math.min(h14, l14), max_val)
+min_val := math.min(math.min(h15, l15), max_val)
+min_val := math.min(math.min(h16, l16), max_val)
+min_val := math.min(math.min(h17, l17), max_val)
+min_val := math.min(math.min(h18, l18), max_val)
+min_val := math.min(math.min(h19, l19), max_val)
+min_val := math.min(math.min(h20, l20), max_val)
+min_val := math.min(math.min(h21, l21), max_val)
+min_val := math.min(math.min(h22, l22), max_val)
+min_val := math.min(math.min(h23, l23), max_val)
+min_val := math.min(math.min(h24, l24), max_val)
+min_val := math.min(math.min(h25, l25), max_val)
+min_val := math.min(math.min(h26, l26), max_val)
+min_val := math.min(math.min(h27, l27), max_val)
+min_val := math.min(math.min(h28, l28), max_val)
+min_val := math.min(math.min(h29, l29), max_val)
+min_val := math.min(math.min(h30, l30), max_val)
+min_val := math.min(math.min(h31, l31), max_val)
+min_val := math.min(math.min(h32, l32), max_val)
+min_val := math.min(math.min(h33, l33), max_val)
+min_val := math.min(math.min(h34, l34), max_val)
+min_val := math.min(math.min(h35, l35), max_val)
+min_val := math.min(math.min(h36, l36), max_val)
+min_val := math.min(math.min(h37, l37), max_val)
+min_val := math.min(math.min(h38, l38), max_val)
+min_val := math.min(math.min(h39, l39), max_val)
+min_val := math.min(math.min(h40, l40), max_val)
+min_val := math.min(math.min(h41, l41), max_val)
+min_val := math.min(math.min(h42, l42), max_val)
+min_val := math.min(math.min(h43, l43), max_val)
+min_val := math.min(math.min(h44, l44), max_val)
+min_val := math.min(math.min(h45, l45), max_val)
+min_val := math.min(math.min(h46, l46), max_val)
+min_val := math.min(math.min(h47, l47), max_val)
+min_val := math.min(math.min(h48, l48), max_val)
+min_val := math.min(math.min(h49, l49), max_val)
+min_val := math.min(math.min(h50, l50), max_val)
+
+range_val = math.max(max_val - min_val, 1e-3)
+
+nh50 = (h50 - min_val) / range_val
+nh49 = (h49 - min_val) / range_val
+nh48 = (h48 - min_val) / range_val
+nh47 = (h47 - min_val) / range_val
+nh46 = (h46 - min_val) / range_val
+nh45 = (h45 - min_val) / range_val
+nh44 = (h44 - min_val) / range_val
+nh43 = (h43 - min_val) / range_val
+nh42 = (h42 - min_val) / range_val
+nh41 = (h41 - min_val) / range_val
+nh40 = (h40 - min_val) / range_val
+nh39 = (h39 - min_val) / range_val
+nh38 = (h38 - min_val) / range_val
+nh37 = (h37 - min_val) / range_val
+nh36 = (h36 - min_val) / range_val
+nh35 = (h35 - min_val) / range_val
+nh34 = (h34 - min_val) / range_val
+nh33 = (h33 - min_val) / range_val
+nh32 = (h32 - min_val) / range_val
+nh31 = (h31 - min_val) / range_val
+nh30 = (h30 - min_val) / range_val
+nh29 = (h29 - min_val) / range_val
+nh28 = (h28 - min_val) / range_val
+nh27 = (h27 - min_val) / range_val
+nh26 = (h26 - min_val) / range_val
+nh25 = (h25 - min_val) / range_val
+nh24 = (h24 - min_val) / range_val
+nh23 = (h23 - min_val) / range_val
+nh22 = (h22 - min_val) / range_val
+nh21 = (h21 - min_val) / range_val
+nh20 = (h20 - min_val) / range_val
+nh19 = (h19 - min_val) / range_val
+nh18 = (h18 - min_val) / range_val
+nh17 = (h17 - min_val) / range_val
+nh16 = (h16 - min_val) / range_val
+nh15 = (h15 - min_val) / range_val
+nh14 = (h14 - min_val) / range_val
+nh13 = (h13 - min_val) / range_val
+nh12 = (h12 - min_val) / range_val
+nh11 = (h11 - min_val) / range_val
+nh10 = (h10 - min_val) / range_val
+nh9 = (h9 - min_val) / range_val
+nh8 = (h8 - min_val) / range_val
+nh7 = (h7 - min_val) / range_val
+nh6 = (h6 - min_val) / range_val
+nh5 = (h5 - min_val) / range_val
+nh4 = (h4 - min_val) / range_val
+nh3 = (h3 - min_val) / range_val
+nh2 = (h2 - min_val) / range_val
+nh1 = (h1 - min_val) / range_val
+nh0 = (h0 - min_val) / range_val
+
+nl50 = (l50 - min_val) / range_val
+nl49 = (l49 - min_val) / range_val
+nl48 = (l48 - min_val) / range_val
+nl47 = (l47 - min_val) / range_val
+nl46 = (l46 - min_val) / range_val
+nl45 = (l45 - min_val) / range_val
+nl44 = (l44 - min_val) / range_val
+nl43 = (l43 - min_val) / range_val
+nl42 = (l42 - min_val) / range_val
+nl41 = (l41 - min_val) / range_val
+nl40 = (l40 - min_val) / range_val
+nl39 = (l39 - min_val) / range_val
+nl38 = (l38 - min_val) / range_val
+nl37 = (l37 - min_val) / range_val
+nl36 = (l36 - min_val) / range_val
+nl35 = (l35 - min_val) / range_val
+nl34 = (l34 - min_val) / range_val
+nl33 = (l33 - min_val) / range_val
+nl32 = (l32 - min_val) / range_val
+nl31 = (l31 - min_val) / range_val
+nl30 = (l30 - min_val) / range_val
+nl29 = (l29 - min_val) / range_val
+nl28 = (l28 - min_val) / range_val
+nl27 = (l27 - min_val) / range_val
+nl26 = (l26 - min_val) / range_val
+nl25 = (l25 - min_val) / range_val
+nl24 = (l24 - min_val) / range_val
+nl23 = (l23 - min_val) / range_val
+nl22 = (l22 - min_val) / range_val
+nl21 = (l21 - min_val) / range_val
+nl20 = (l20 - min_val) / range_val
+nl19 = (l19 - min_val) / range_val
+nl18 = (l18 - min_val) / range_val
+nl17 = (l17 - min_val) / range_val
+nl16 = (l16 - min_val) / range_val
+nl15 = (l15 - min_val) / range_val
+nl14 = (l14 - min_val) / range_val
+nl13 = (l13 - min_val) / range_val
+nl12 = (l12 - min_val) / range_val
+nl11 = (l11 - min_val) / range_val
+nl10 = (l10 - min_val) / range_val
+nl9 = (l9 - min_val) / range_val
+nl8 = (l8 - min_val) / range_val
+nl7 = (l7 - min_val) / range_val
+nl6 = (l6 - min_val) / range_val
+nl5 = (l5 - min_val) / range_val
+nl4 = (l4 - min_val) / range_val
+nl3 = (l3 - min_val) / range_val
+nl2 = (l2 - min_val) / range_val
+nl1 = (l1 - min_val) / range_val
+nl0 = (l0 - min_val) / range_val
+
+nc0 = (c0 - min_val) / range_val
+
+// === Dense Output ===
+out0 = (-0.0105 * nh50) + (-0.0003 * nl50) + (0.0210 * nh49) + (-0.0056 * nl49) + (0.0010 * nh48) + (-0.0208 * nl48) + (-0.0041 * nh47) + (-0.0061 * nl47) + (0.0212 * nh46) + (-0.0054 * nl46) + (-0.0100 * nh45) + (0.0032 * nl45) + (-0.0041 * nh44) + (-0.0002 * nl44) + (-0.0030 * nh43) + (0.0094 * nl43) + (-0.0167 * nh42) + (0.0134 * nl42) + (-0.0171 * nh41) + (0.0032 * nl41) + (0.0037 * nh40) + (-0.0063 * nl40) + (0.0021 * nh39) + (0.0198 * nl39) + (0.0036 * nh38) + (0.0174 * nl38) + (-0.0029 * nh37) + (0.0036 * nl37) + (-0.0097 * nh36) + (-0.0059 * nl36) + (-0.0058 * nh35) + (-0.0038 * nl35) + (-0.0059 * nh34) + (0.0044 * nl34) + (-0.0044 * nh33) + (0.0106 * nl33) + (-0.0043 * nh32) + (0.0045 * nl32) + (0.0064 * nh31) + (-0.0019 * nl31) + (0.0036 * nh30) + (-0.0119 * nl30) + (-0.0010 * nh29) + (-0.0070 * nl29) + (-0.0080 * nh28) + (0.0174 * nl28) + (0.0031 * nh27) + (-0.0181 * nl27) + (-0.0024 * nh26) + (0.0044 * nl26) + (0.0031 * nh25) + (-0.0137 * nl25) + (0.0004 * nh24) + (-0.0028 * nl24) + (0.0085 * nh23) + (0.0108 * nl23) + (-0.0017 * nh22) + (-0.0114 * nl22) + (-0.0097 * nh21) + (-0.0037 * nl21) + (0.0118 * nh20) + (0.0094 * nl20) + (0.0227 * nh19) + (-0.0071 * nl19) + (-0.0210 * nh18) + (0.0054 * nl18) + (0.0170 * nh17) + (-0.0120 * nl17) + (0.0147 * nh16) + (-0.0103 * nl16) + (-0.0038 * nh15) + (-0.0010 * nl15) + (0.0129 * nh14) + (0.0016 * nl14) + (0.0003 * nh13) + (-0.0140 * nl13) + (0.0122 * nh12) + (-0.0180 * nl12) + (0.0145 * nh11) + (-0.0036 * nl11) + (0.0002 * nh10) + (0.0125 * nl10) + (0.0189 * nh9) + (-0.0198 * nl9) + (0.0028 * nh8) + (-0.0193 * nl8) + (0.0132 * nh7) + (-0.0130 * nl7) + (0.0221 * nh6) + (-0.0242 * nl6) + (0.0276 * nh5) + (-0.0231 * nl5) + (0.0006 * nh4) + (-0.0181 * nl4) + (0.0438 * nh3) + (-0.0299 * nl3) + (0.0596 * nh2) + (-0.0485 * nl2) + (0.1269 * nh1) + (-0.0228 * nl1) + (0.2771 * nh0) + (0.1060 * nl0) + (0.5105 * nc0) + 0.0254
+out1 = (-0.0047 * nh50) + (-0.0059 * nl50) + (0.0066 * nh49) + (-0.0014 * nl49) + (0.0002 * nh48) + (-0.0181 * nl48) + (-0.0004 * nh47) + (0.0014 * nl47) + (-0.0031 * nh46) + (0.0017 * nl46) + (-0.0006 * nh45) + (-0.0045 * nl45) + (-0.0138 * nh44) + (-0.0020 * nl44) + (0.0086 * nh43) + (-0.0009 * nl43) + (-0.0044 * nh42) + (0.0182 * nl42) + (-0.0057 * nh41) + (0.0016 * nl41) + (-0.0055 * nh40) + (0.0028 * nl40) + (-0.0013 * nh39) + (0.0214 * nl39) + (0.0031 * nh38) + (0.0085 * nl38) + (-0.0091 * nh37) + (0.0104 * nl37) + (0.0073 * nh36) + (-0.0134 * nl36) + (-0.0101 * nh35) + (0.0140 * nl35) + (-0.0016 * nh34) + (-0.0094 * nl34) + (-0.0087 * nh33) + (0.0175 * nl33) + (0.0033 * nh32) + (-0.0069 * nl32) + (-0.0057 * nh31) + (0.0050 * nl31) + (-0.0101 * nh30) + (-0.0054 * nl30) + (0.0191 * nh29) + (-0.0142 * nl29) + (-0.0202 * nh28) + (0.0184 * nl28) + (0.0071 * nh27) + (-0.0126 * nl27) + (0.0054 * nh26) + (-0.0118 * nl26) + (0.0148 * nh25) + (0.0003 * nl25) + (-0.0050 * nh24) + (0.0106 * nl24) + (0.0003 * nh23) + (-0.0017 * nl23) + (0.0131 * nh22) + (-0.0113 * nl22) + (0.0042 * nh21) + (0.0012 * nl21) + (0.0039 * nh20) + (-0.0066 * nl20) + (-0.0023 * nh19) + (-0.0069 * nl19) + (-0.0093 * nh18) + (0.0096 * nl18) + (-0.0065 * nh17) + (0.0050 * nl17) + (0.0098 * nh16) + (0.0030 * nl16) + (-0.0008 * nh15) + (0.0059 * nl15) + (0.0004 * nh14) + (0.0054 * nl14) + (-0.0129 * nh13) + (-0.0021 * nl13) + (-0.0187 * nh12) + (0.0117 * nl12) + (0.0180 * nl11) + (0.0060 * nh10) + (0.0176 * nl10) + (-0.0158 * nh9) + (0.0094 * nl9) + (-0.0142 * nh8) + (0.0092 * nl8) + (-0.0335 * nh7) + (0.0272 * nl7) + (-0.0179 * nh6) + (-0.0020 * nl6) + (-0.0157 * nh5) + (0.0374 * nl5) + (-0.0387 * nh4) + (0.0363 * nl4) + (-0.0364 * nh3) + (0.0441 * nl3) + (-0.0320 * nh2) + (0.0397 * nl2) + (-0.0272 * nh1) + (0.1098 * nl1) + (0.0803 * nh0) + (0.3635 * nl0) + (0.4727 * nc0) + 0.0104
+
+// = Denormalize
+next_high = out0 * range_val + min_val
+next_low = out1 * range_val + min_val
+
+// === Plotting ===
+ph_upper = plot(next_high, color=color.new(color.blue, 0), linewidth=1, offset=1)
+pl_lower = plot(next_low, color=color.new(color.blue, 0), linewidth=1, offset=1)
+fill(ph_upper, pl_lower, color=color.new(color.blue, 80))
