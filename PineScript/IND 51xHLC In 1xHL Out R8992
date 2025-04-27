@@ -24,6 +24,9 @@
 indicator("IND 51xHLC In 1xHL Out R8992", overlay=true)
 // IND-5mT10-ser_I50_H_L_I1_C-Flat-Dense2-O1F0H_L-b4e1-R8992.weights
 
+showing = input.string("none", title="Showing total wins and losses", options=["none", "binary option", "Scalping"])
+cost = input.float(0, title="Binary option = Winning profit percentage, Scalping = Spread")
+
 // === Input: 51 time steps × 2 features ===
 h50 = high[50], l50 = low[50]
 h49 = high[49], l49 = low[49]
@@ -297,7 +300,67 @@ out1 = (-0.0047 * nh50) + (-0.0059 * nl50) + (0.0066 * nh49) + (-0.0014 * nl49) 
 next_high = out0 * range_val + min_val
 next_low = out1 * range_val + min_val
 
-// === Plotting ===
+direction = color.new(color.blue, 70)
+if (next_high > next_high[1] and next_low > next_low[1])
+    direction := color.new(color.green, 70)
+else if (next_high < next_high[1] and next_low < next_low[1])
+    direction := color.new(color.red, 70)
+
+// Plotting
 ph_upper = plot(next_high, color=color.new(color.blue, 0), linewidth=1, offset=1)
 pl_lower = plot(next_low, color=color.new(color.blue, 0), linewidth=1, offset=1)
-fill(ph_upper, pl_lower, color=color.new(color.blue, 80))
+fill(ph_upper, pl_lower, color=direction)
+
+// Detect prediction direction
+predicted_up = (next_high[1] < next_high and next_low[1] < next_low)
+predicted_down = (next_high[1] > next_high and next_low[1] > next_low)
+
+if (showing == "binary option")
+    // Win/Loss Counter
+    var float total_wins = 0
+    var int total_losses = 0
+
+    if (predicted_up)
+        if (close[1] < close)
+            total_wins += 1 - cost
+        else
+            total_losses += 1
+    else if (predicted_down)
+        if (close[1] > close)
+            total_wins += 1 - cost
+        else
+            total_losses += 1
+
+    // === Clean display of total wins and losses ===
+    var label myLabel = na
+
+    if (na(myLabel))
+        myLabel := label.new(x=bar_index, y=high, text="Wins: 0 | Losses: 0", style=label.style_label_down, color=color.gray, textcolor=color.white, size=size.small)
+
+    label.set_xy(myLabel, bar_index, high)
+    label.set_text(myLabel, "Wins: " + str.tostring(total_wins) + " | Losses: " + str.tostring(total_losses))
+
+if (showing == "Scalping")
+    // Win/Loss Counter
+    var float total_profits = 0
+    var float total_losses = 0
+
+    if (predicted_up)
+        if (close[1] < close)
+            total_profits += close - close[1] - cost
+        else
+            total_losses += close[1] - close + cost
+    else if (predicted_down)
+        if (close[1] > close)
+            total_profits += close[1] - close - cost
+        else
+            total_losses += close - close[1] + cost
+
+    // === Clean display of total profits and losses ===
+    var label myLabel = na
+
+    if (na(myLabel))
+        myLabel := label.new(x=bar_index, y=high, text="Profits: 0 | Losses: 0", style=label.style_label_down, color=color.gray, textcolor=color.white, size=size.small)
+
+    label.set_xy(myLabel, bar_index, high)
+    label.set_text(myLabel, "Profits: " + str.tostring(total_profits) + " | Losses: " + str.tostring(total_losses))
