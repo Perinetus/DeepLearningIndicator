@@ -24,8 +24,8 @@
 indicator("IND 51xHLC In 1xHL Out R8992", overlay=true)
 // IND-5mT10-ser_I50_H_L_I1_C-Flat-Dense2-O1F0H_L-b4e1-R8992.weights
 
-showing = input.string("none", title="Showing total wins and losses", options=["none", "binary option", "Scalping"])
-cost = input.float(0, title="Binary option = Winning profit percentage, Scalping = Spread")
+showing = input.bool(true, title="Showing total wins and losses")
+cost = input.float(0, title="Spread")
 
 // === Input: 51 time steps × 2 features ===
 h50 = high[50], l50 = low[50]
@@ -293,12 +293,12 @@ nl0 = (l0 - min_val) / range_val
 nc0 = (c0 - min_val) / range_val
 
 // === Dense Output ===
-out0 = (-0.0105 * nh50) + (-0.0003 * nl50) + (0.0210 * nh49) + (-0.0056 * nl49) + (0.0010 * nh48) + (-0.0208 * nl48) + (-0.0041 * nh47) + (-0.0061 * nl47) + (0.0212 * nh46) + (-0.0054 * nl46) + (-0.0100 * nh45) + (0.0032 * nl45) + (-0.0041 * nh44) + (-0.0002 * nl44) + (-0.0030 * nh43) + (0.0094 * nl43) + (-0.0167 * nh42) + (0.0134 * nl42) + (-0.0171 * nh41) + (0.0032 * nl41) + (0.0037 * nh40) + (-0.0063 * nl40) + (0.0021 * nh39) + (0.0198 * nl39) + (0.0036 * nh38) + (0.0174 * nl38) + (-0.0029 * nh37) + (0.0036 * nl37) + (-0.0097 * nh36) + (-0.0059 * nl36) + (-0.0058 * nh35) + (-0.0038 * nl35) + (-0.0059 * nh34) + (0.0044 * nl34) + (-0.0044 * nh33) + (0.0106 * nl33) + (-0.0043 * nh32) + (0.0045 * nl32) + (0.0064 * nh31) + (-0.0019 * nl31) + (0.0036 * nh30) + (-0.0119 * nl30) + (-0.0010 * nh29) + (-0.0070 * nl29) + (-0.0080 * nh28) + (0.0174 * nl28) + (0.0031 * nh27) + (-0.0181 * nl27) + (-0.0024 * nh26) + (0.0044 * nl26) + (0.0031 * nh25) + (-0.0137 * nl25) + (0.0004 * nh24) + (-0.0028 * nl24) + (0.0085 * nh23) + (0.0108 * nl23) + (-0.0017 * nh22) + (-0.0114 * nl22) + (-0.0097 * nh21) + (-0.0037 * nl21) + (0.0118 * nh20) + (0.0094 * nl20) + (0.0227 * nh19) + (-0.0071 * nl19) + (-0.0210 * nh18) + (0.0054 * nl18) + (0.0170 * nh17) + (-0.0120 * nl17) + (0.0147 * nh16) + (-0.0103 * nl16) + (-0.0038 * nh15) + (-0.0010 * nl15) + (0.0129 * nh14) + (0.0016 * nl14) + (0.0003 * nh13) + (-0.0140 * nl13) + (0.0122 * nh12) + (-0.0180 * nl12) + (0.0145 * nh11) + (-0.0036 * nl11) + (0.0002 * nh10) + (0.0125 * nl10) + (0.0189 * nh9) + (-0.0198 * nl9) + (0.0028 * nh8) + (-0.0193 * nl8) + (0.0132 * nh7) + (-0.0130 * nl7) + (0.0221 * nh6) + (-0.0242 * nl6) + (0.0276 * nh5) + (-0.0231 * nl5) + (0.0006 * nh4) + (-0.0181 * nl4) + (0.0438 * nh3) + (-0.0299 * nl3) + (0.0596 * nh2) + (-0.0485 * nl2) + (0.1269 * nh1) + (-0.0228 * nl1) + (0.2771 * nh0) + (0.1060 * nl0) + (0.5105 * nc0) + 0.0254
-out1 = (-0.0047 * nh50) + (-0.0059 * nl50) + (0.0066 * nh49) + (-0.0014 * nl49) + (0.0002 * nh48) + (-0.0181 * nl48) + (-0.0004 * nh47) + (0.0014 * nl47) + (-0.0031 * nh46) + (0.0017 * nl46) + (-0.0006 * nh45) + (-0.0045 * nl45) + (-0.0138 * nh44) + (-0.0020 * nl44) + (0.0086 * nh43) + (-0.0009 * nl43) + (-0.0044 * nh42) + (0.0182 * nl42) + (-0.0057 * nh41) + (0.0016 * nl41) + (-0.0055 * nh40) + (0.0028 * nl40) + (-0.0013 * nh39) + (0.0214 * nl39) + (0.0031 * nh38) + (0.0085 * nl38) + (-0.0091 * nh37) + (0.0104 * nl37) + (0.0073 * nh36) + (-0.0134 * nl36) + (-0.0101 * nh35) + (0.0140 * nl35) + (-0.0016 * nh34) + (-0.0094 * nl34) + (-0.0087 * nh33) + (0.0175 * nl33) + (0.0033 * nh32) + (-0.0069 * nl32) + (-0.0057 * nh31) + (0.0050 * nl31) + (-0.0101 * nh30) + (-0.0054 * nl30) + (0.0191 * nh29) + (-0.0142 * nl29) + (-0.0202 * nh28) + (0.0184 * nl28) + (0.0071 * nh27) + (-0.0126 * nl27) + (0.0054 * nh26) + (-0.0118 * nl26) + (0.0148 * nh25) + (0.0003 * nl25) + (-0.0050 * nh24) + (0.0106 * nl24) + (0.0003 * nh23) + (-0.0017 * nl23) + (0.0131 * nh22) + (-0.0113 * nl22) + (0.0042 * nh21) + (0.0012 * nl21) + (0.0039 * nh20) + (-0.0066 * nl20) + (-0.0023 * nh19) + (-0.0069 * nl19) + (-0.0093 * nh18) + (0.0096 * nl18) + (-0.0065 * nh17) + (0.0050 * nl17) + (0.0098 * nh16) + (0.0030 * nl16) + (-0.0008 * nh15) + (0.0059 * nl15) + (0.0004 * nh14) + (0.0054 * nl14) + (-0.0129 * nh13) + (-0.0021 * nl13) + (-0.0187 * nh12) + (0.0117 * nl12) + (0.0180 * nl11) + (0.0060 * nh10) + (0.0176 * nl10) + (-0.0158 * nh9) + (0.0094 * nl9) + (-0.0142 * nh8) + (0.0092 * nl8) + (-0.0335 * nh7) + (0.0272 * nl7) + (-0.0179 * nh6) + (-0.0020 * nl6) + (-0.0157 * nh5) + (0.0374 * nl5) + (-0.0387 * nh4) + (0.0363 * nl4) + (-0.0364 * nh3) + (0.0441 * nl3) + (-0.0320 * nh2) + (0.0397 * nl2) + (-0.0272 * nh1) + (0.1098 * nl1) + (0.0803 * nh0) + (0.3635 * nl0) + (0.4727 * nc0) + 0.0104
+out_high = (-0.0105 * nh50) + (-0.0003 * nl50) + (0.0210 * nh49) + (-0.0056 * nl49) + (0.0010 * nh48) + (-0.0208 * nl48) + (-0.0041 * nh47) + (-0.0061 * nl47) + (0.0212 * nh46) + (-0.0054 * nl46) + (-0.0100 * nh45) + (0.0032 * nl45) + (-0.0041 * nh44) + (-0.0002 * nl44) + (-0.0030 * nh43) + (0.0094 * nl43) + (-0.0167 * nh42) + (0.0134 * nl42) + (-0.0171 * nh41) + (0.0032 * nl41) + (0.0037 * nh40) + (-0.0063 * nl40) + (0.0021 * nh39) + (0.0198 * nl39) + (0.0036 * nh38) + (0.0174 * nl38) + (-0.0029 * nh37) + (0.0036 * nl37) + (-0.0097 * nh36) + (-0.0059 * nl36) + (-0.0058 * nh35) + (-0.0038 * nl35) + (-0.0059 * nh34) + (0.0044 * nl34) + (-0.0044 * nh33) + (0.0106 * nl33) + (-0.0043 * nh32) + (0.0045 * nl32) + (0.0064 * nh31) + (-0.0019 * nl31) + (0.0036 * nh30) + (-0.0119 * nl30) + (-0.0010 * nh29) + (-0.0070 * nl29) + (-0.0080 * nh28) + (0.0174 * nl28) + (0.0031 * nh27) + (-0.0181 * nl27) + (-0.0024 * nh26) + (0.0044 * nl26) + (0.0031 * nh25) + (-0.0137 * nl25) + (0.0004 * nh24) + (-0.0028 * nl24) + (0.0085 * nh23) + (0.0108 * nl23) + (-0.0017 * nh22) + (-0.0114 * nl22) + (-0.0097 * nh21) + (-0.0037 * nl21) + (0.0118 * nh20) + (0.0094 * nl20) + (0.0227 * nh19) + (-0.0071 * nl19) + (-0.0210 * nh18) + (0.0054 * nl18) + (0.0170 * nh17) + (-0.0120 * nl17) + (0.0147 * nh16) + (-0.0103 * nl16) + (-0.0038 * nh15) + (-0.0010 * nl15) + (0.0129 * nh14) + (0.0016 * nl14) + (0.0003 * nh13) + (-0.0140 * nl13) + (0.0122 * nh12) + (-0.0180 * nl12) + (0.0145 * nh11) + (-0.0036 * nl11) + (0.0002 * nh10) + (0.0125 * nl10) + (0.0189 * nh9) + (-0.0198 * nl9) + (0.0028 * nh8) + (-0.0193 * nl8) + (0.0132 * nh7) + (-0.0130 * nl7) + (0.0221 * nh6) + (-0.0242 * nl6) + (0.0276 * nh5) + (-0.0231 * nl5) + (0.0006 * nh4) + (-0.0181 * nl4) + (0.0438 * nh3) + (-0.0299 * nl3) + (0.0596 * nh2) + (-0.0485 * nl2) + (0.1269 * nh1) + (-0.0228 * nl1) + (0.2771 * nh0) + (0.1060 * nl0) + (0.5105 * nc0) + 0.0254
+out_low = (-0.0047 * nh50) + (-0.0059 * nl50) + (0.0066 * nh49) + (-0.0014 * nl49) + (0.0002 * nh48) + (-0.0181 * nl48) + (-0.0004 * nh47) + (0.0014 * nl47) + (-0.0031 * nh46) + (0.0017 * nl46) + (-0.0006 * nh45) + (-0.0045 * nl45) + (-0.0138 * nh44) + (-0.0020 * nl44) + (0.0086 * nh43) + (-0.0009 * nl43) + (-0.0044 * nh42) + (0.0182 * nl42) + (-0.0057 * nh41) + (0.0016 * nl41) + (-0.0055 * nh40) + (0.0028 * nl40) + (-0.0013 * nh39) + (0.0214 * nl39) + (0.0031 * nh38) + (0.0085 * nl38) + (-0.0091 * nh37) + (0.0104 * nl37) + (0.0073 * nh36) + (-0.0134 * nl36) + (-0.0101 * nh35) + (0.0140 * nl35) + (-0.0016 * nh34) + (-0.0094 * nl34) + (-0.0087 * nh33) + (0.0175 * nl33) + (0.0033 * nh32) + (-0.0069 * nl32) + (-0.0057 * nh31) + (0.0050 * nl31) + (-0.0101 * nh30) + (-0.0054 * nl30) + (0.0191 * nh29) + (-0.0142 * nl29) + (-0.0202 * nh28) + (0.0184 * nl28) + (0.0071 * nh27) + (-0.0126 * nl27) + (0.0054 * nh26) + (-0.0118 * nl26) + (0.0148 * nh25) + (0.0003 * nl25) + (-0.0050 * nh24) + (0.0106 * nl24) + (0.0003 * nh23) + (-0.0017 * nl23) + (0.0131 * nh22) + (-0.0113 * nl22) + (0.0042 * nh21) + (0.0012 * nl21) + (0.0039 * nh20) + (-0.0066 * nl20) + (-0.0023 * nh19) + (-0.0069 * nl19) + (-0.0093 * nh18) + (0.0096 * nl18) + (-0.0065 * nh17) + (0.0050 * nl17) + (0.0098 * nh16) + (0.0030 * nl16) + (-0.0008 * nh15) + (0.0059 * nl15) + (0.0004 * nh14) + (0.0054 * nl14) + (-0.0129 * nh13) + (-0.0021 * nl13) + (-0.0187 * nh12) + (0.0117 * nl12) + (0.0180 * nl11) + (0.0060 * nh10) + (0.0176 * nl10) + (-0.0158 * nh9) + (0.0094 * nl9) + (-0.0142 * nh8) + (0.0092 * nl8) + (-0.0335 * nh7) + (0.0272 * nl7) + (-0.0179 * nh6) + (-0.0020 * nl6) + (-0.0157 * nh5) + (0.0374 * nl5) + (-0.0387 * nh4) + (0.0363 * nl4) + (-0.0364 * nh3) + (0.0441 * nl3) + (-0.0320 * nh2) + (0.0397 * nl2) + (-0.0272 * nh1) + (0.1098 * nl1) + (0.0803 * nh0) + (0.3635 * nl0) + (0.4727 * nc0) + 0.0104
 
 // = Denormalize
-next_high = out0 * range_val + min_val
-next_low = out1 * range_val + min_val
+next_high = out_high * range_val + min_val
+next_low = out_low * range_val + min_val
 
 direction = color.new(color.blue, 70)
 if (next_high > next_high[1] and next_low > next_low[1])
@@ -312,55 +312,93 @@ pl_lower = plot(next_low, color=color.new(color.blue, 0), linewidth=1, offset=1)
 fill(ph_upper, pl_lower, color=direction)
 
 // Detect prediction direction
-predicted_up = (next_high[1] < next_high and next_low[1] < next_low)
-predicted_down = (next_high[1] > next_high and next_low[1] > next_low)
+predicted_up = (next_high[2] < next_high[1] and next_low[2] < next_low[1])
+predicted_down = (next_high[2] > next_high[1] and next_low[2] > next_low[1])
 
-if (showing == "binary option")
-    // Win/Loss Counter
-    var float total_wins = 0
-    var int total_losses = 0
+var float total_profits = 0
+var float total_losses = 0
+var int total = 0
+var int true_trade = 0
+var int all_candlestick = 0
+var float error = 0
+var float peak_profit = 0
+var float max_drawdown = 0
 
+// R-squared variables (newly added)
+var float sum_squared_error = 0
+var float sum_squared_total = 0
+var float sum_high = 0
+var float sum_low = 0
+
+var label myLabel = na
+
+if (showing)
     if (predicted_up)
         if (close[1] < close)
-            total_wins += 1 - cost
+            total_profits += (close - close[1] - cost) / close[1]
+            true_trade += 1
         else
-            total_losses += 1
+            total_losses += (close[1] - close + cost) / close[1]
+        total += 1
     else if (predicted_down)
         if (close[1] > close)
-            total_wins += 1 - cost
+            total_profits += (close[1] - close - cost) / close[1]
+            true_trade += 1
         else
-            total_losses += 1
+            total_losses += (close - close[1] + cost) / close[1]
+        total += 1
+    all_candlestick += 1
 
-    // === Clean display of total wins and losses ===
-    var label myLabel = na
+    if (not na(next_high[1]) and not na(next_low[1]))
+        // R-squared calculations (newly added)
+        sum_high += high
+        sum_low += low
+        mean_high = sum_high / (all_candlestick)
+        mean_low = sum_low / (all_candlestick)
 
+        err_high = (high - next_high[1])
+        err_low = (low - next_low[1])
+
+        error += (math.abs(err_high / high) + math.abs(err_low / low)) / 2
+
+        sum_squared_error += (err_high * err_high + err_low * err_low) / 2
+        sum_squared_total += ((high - mean_high) * (high - mean_high) + (low - mean_low) * (low - mean_low)) / 2
+
+    // Calculate performance
+    frequency = all_candlestick > 0 ? math.floor(total / all_candlestick * 1000000) / 10000 : 0
+    win_rate = total > 0 ? math.floor(true_trade / total * 1000000) / 10000 : 0
+    ratioed_profits = total > 0 ? math.floor(total_profits * 1000000 / total) / 10000 : 0
+    ratioed_losses = total > 0 ? math.ceil(total_losses * 1000000 / total) / 10000 : 0
+    show_profits = total > 0 ? math.floor(total_profits * 1000000 / true_trade) / 10000 : 0
+    show_losses = total > 0 ? math.ceil(total_losses * 1000000 / (total - true_trade)) / 10000 : 0
+    show_actual_profits = ratioed_profits - ratioed_losses
+
+    // Mean Average Error
+    mean_average_error = all_candlestick > 0 ? error / all_candlestick : 0
+    mean_average_error := math.ceil(mean_average_error * 1000000) / 10000
+
+    // R-squared
+    r_squared = (sum_squared_total > 0) ? (1 - (sum_squared_error / sum_squared_total)) : 0
+    r_squared := math.floor(r_squared * 1000000) / 10000
+
+    // === Drawdown calculation ===
+    current_profit = show_actual_profits
+    peak_profit := math.max(peak_profit, current_profit)
+    current_drawdown = peak_profit - current_profit
+    max_drawdown := math.max(max_drawdown, current_drawdown)
+
+    // === Label Update ===
     if (na(myLabel))
-        myLabel := label.new(x=bar_index, y=high, text="Wins: 0 | Losses: 0", style=label.style_label_down, color=color.gray, textcolor=color.white, size=size.small)
+        myLabel := label.new(x=bar_index, y=high, text="", style=label.style_label_down, color=color.new(color.gray, 50), textcolor=color.new(color.white, 50), size=size.small)
 
-    label.set_xy(myLabel, bar_index, high)
-    label.set_text(myLabel, "Wins: " + str.tostring(total_wins) + " | Losses: " + str.tostring(total_losses))
-
-if (showing == "Scalping")
-    // Win/Loss Counter
-    var float total_profits = 0
-    var float total_losses = 0
-
-    if (predicted_up)
-        if (close[1] < close)
-            total_profits += close - close[1] - cost
-        else
-            total_losses += close[1] - close + cost
-    else if (predicted_down)
-        if (close[1] > close)
-            total_profits += close[1] - close - cost
-        else
-            total_losses += close - close[1] + cost
-
-    // === Clean display of total profits and losses ===
-    var label myLabel = na
-
-    if (na(myLabel))
-        myLabel := label.new(x=bar_index, y=high, text="Profits: 0 | Losses: 0", style=label.style_label_down, color=color.gray, textcolor=color.white, size=size.small)
-
-    label.set_xy(myLabel, bar_index, high)
-    label.set_text(myLabel, "Profits: " + str.tostring(total_profits) + " | Losses: " + str.tostring(total_losses))
+    printed_text = "Support: " + str.tostring(total)
+    printed_text += "\n\nMean Average Error: " + str.tostring(mean_average_error)
+    printed_text += "%\nR-squared: " + str.tostring(r_squared)
+    printed_text += "%\n\nTrading Frequency: " + str.tostring(frequency)
+    printed_text += "%\nWin Rate: " + str.tostring(win_rate)
+    printed_text += "%\nAverage Gain: " + str.tostring(show_profits)
+    printed_text += "%\nAverage Loss: " + str.tostring(show_losses)
+    printed_text += "%\nAverage Profit: " + str.tostring(show_actual_profits)
+    printed_text += "%\nMax Drawdown: " + str.tostring(max_drawdown) + "%"
+    label.set_xy(myLabel, bar_index + 1, high)
+    label.set_text(myLabel, printed_text)
