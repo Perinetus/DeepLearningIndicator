@@ -375,11 +375,11 @@ if (showing)
 
     // Mean Average Error
     mean_average_error = all_candlestick > 0 ? error / all_candlestick : 0
-    mean_average_error := math.ceil(mean_average_error * 1000000) / 10000
+    mean_average_error := math.ceil(mean_average_error * 10000) / 10000
 
     // R-squared
     r_squared = (sum_squared_total > 0) ? (1 - (sum_squared_error / sum_squared_total)) : 0
-    r_squared := math.floor(r_squared * 1000000) / 10000
+    r_squared := math.floor(r_squared * 10000) / 10000
 
     // === Drawdown calculation ===
     current_profit = show_actual_profits
@@ -393,8 +393,8 @@ if (showing)
 
     printed_text = "Support: " + str.tostring(total)
     printed_text += "\n\nMean Average Error: " + str.tostring(mean_average_error)
-    printed_text += "%\nR-squared: " + str.tostring(r_squared)
-    printed_text += "%\n\nTrading Frequency: " + str.tostring(frequency)
+    printed_text += "\nR-squared: " + str.tostring(r_squared)
+    printed_text += "\n\nTrading Frequency: " + str.tostring(frequency)
     printed_text += "%\nWin Rate: " + str.tostring(win_rate)
     printed_text += "%\nAverage Gain: " + str.tostring(show_profits)
     printed_text += "%\nAverage Loss: " + str.tostring(show_losses)
