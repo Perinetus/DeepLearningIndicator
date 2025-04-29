@@ -154,7 +154,7 @@ Y_train, Y_test = Y[:train_size], Y[train_size:]
 # แบ่งข้อมูลที่จะใช้ฝึกและทดสอบตาม index ที่ได้
 
 input_layer = Input(shape=(1, 103))
-# สร้าง input layer ที่มีขนาดเป็น 1x8
+# สร้าง input layer ที่มีขนาดเป็น 1x103
 # ก็คือ 1 เป็นชั้นของ layer ที่ต่ำที่สุด
 # ส่วน 103 จะเป็น high 50, low 50, high 49, low 49, ..., high 0, low 0 และ close 0
 
